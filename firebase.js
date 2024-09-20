@@ -7,11 +7,14 @@ import {
   collection,
   query,
   getDocs,
+  where,
 } from 'firebase/firestore';
+import dotenv from 'dotenv';
+dotenv.config();
 //import { getAnalytics } from 'firebase/analytics';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCuKNmHu5RM8-JICTELlQh-PZvN1KXTnd0',
+  apiKey: process.env.API_KEY,
   authDomain: 'emiwebrtc.firebaseapp.com',
   projectId: 'emiwebrtc',
   storageBucket: 'emiwebrtc.appicon.com',
@@ -52,7 +55,7 @@ const getData = async () => {
   try {
     const collectionRef = collection(firestoreDb, dbTable);
     const finalData = [];
-    const q = query(collectionRef);
+    const q = query(collectionRef, where('age', '>', 40));
     const docSnapShot = await getDocs(q);
     docSnapShot.forEach((doc) => {
       finalData.push(doc.data());
